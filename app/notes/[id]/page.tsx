@@ -18,7 +18,7 @@ async function NotePage({params}:any) {
     <div>
         <h1>{`Note/${params.id}`}</h1>
         <div className="bg-yellow-600">
-                
+                <h1>branch-2 0ne NotePage</h1>
                 <h2>{note.title}</h2>
                 <h5>{note.text}</h5>
                 <p>{note.created}</p>
