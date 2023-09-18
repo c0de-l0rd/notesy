@@ -21,7 +21,7 @@ async function NotePage({params}:any) {
                 <h1>branch-2 0ne NotePage</h1>
                 <h2>{note.title}</h2>
                 <h5>{note.text}</h5>
-                
+                <p>{note.created}</p>
         </div>
     </div>
   )
