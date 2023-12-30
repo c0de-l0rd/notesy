@@ -6,18 +6,19 @@ import UserImage from '@/public/34.jpg'
 
 function Header() {
   return (
-    <div className='flex flex-row mt-3 justify-between'>
-        <div className='flex align-middle justify-center'>
-        <MdMenu className='ml-3 mr-3' size='40'/>
-        <h1 className='text-[25px] antialiased font-mono font-bold ml-3 mr-3'>Notesy</h1>
+    <div className='bg-white flex flex-row justify-between mb-[7rem]'>
+      <div className='bg-white fixed z-1 flex flex-row justify-between '>
+
+        <div className='mr-[10rem] flex justify-center items-center pt-2 pb-8'>
+        <MdMenu className='text-lg ml-3 mr-3'/>
+        <h1 className='text-lg antialiased font-mono font-bold mr-3'>Notesy</h1>
         </div>
-        <div className='flex align-middle justify-center'>
-        <IoSearchOutline className='ml-3 mr-3' size='40'/>
-        <Image className='rounded-full ml-3 mr-3'
-        height={45}
-        width={45}
+        <div className=' flex justify-center items-center pt-2 pb-8'>
+        <IoSearchOutline className='text-lg ml-3 mr-3' />
+        <Image className='w-8 h-8 rounded-full ml-3 mr-3'
         src={UserImage}
         alt="user's image"/>            
+        </div>
         </div>
     </div>
   )

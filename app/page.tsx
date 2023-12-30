@@ -1,7 +1,18 @@
 import Image from 'next/image'
+import Notes from '@/components/notes'
 
 export default function Home() {
   return (
-    <div> Home page</div>
+    <>
+    <Notes/>
+    <Notes/>
+    <Notes/>
+    <Notes/>
+    <Notes/>
+    <Notes/>
+    <Notes/>
+
+    </>
+
   )
 }

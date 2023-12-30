@@ -21,3 +21,7 @@
 body {
   
 }
+
+.card{
+  @apply bg-gray-600 rounded-[5px] shadow-md cursor-pointer mt-2 mb-2 py-3 px-2 text-lg md:text-2xl tracking-wider gap-x-6
+}
