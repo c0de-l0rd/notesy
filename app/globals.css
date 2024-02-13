@@ -25,3 +25,33 @@ body {
 .card{
   @apply bg-gray-600 rounded-[5px] shadow-md cursor-pointer mt-2 mb-2 py-3 px-2 text-lg md:text-2xl tracking-wider gap-x-6
 }
+
+.close-button {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  border-radius: 15px; /* Circular shape */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-weight: 500; */
+  /*font-size: 24px;  Adjust font size as needed */
+}
+
+.modal {
+  width: 80%;
+  max-width: 500px;
+  height: auto;
+  max-height: 80%;
+  border: none;
+  border-radius: 12px;
+  background-color: white;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  font-weight: 500;
+}

@@ -1,10 +1,15 @@
 import React from 'react'
 
-function Notes() {
+interface NotesProps {
+  text:string
+}
+
+function Notes(props:NotesProps) {
   return (
 
     <div className="grid grid-cols-1 ml-8 mr-8 mt-3">
-        <div className="card line-clamp-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium impedit recusandae at ipsum consectetur ad animi officiis hic odio illo. 
+        <div className="card line-clamp-3">
+          {props.text} 
         </div>
     </div>
 
