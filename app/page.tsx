@@ -51,7 +51,7 @@ export default function Page() {
           <Notes text={note.bodyText}/>
         </Link>
       ))}
-<button onClick={handleClick}>Click me</button>
+<button onClick={()=>handleClick}>Click me</button>
     </section>
   );
 }
