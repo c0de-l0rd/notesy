@@ -24,7 +24,7 @@ export async function POST(req:NextRequest, res:NextResponse) {
             // }
             if(data.length === 0){
                 console.log("no data")
-                return NextResponse.json({message:"you do not have any notes"}, {status:404})
+                return await NextResponse.json({message:"you do not have any notes"}, {status:404})
             }
             else{
                 return NextResponse.json({data:data}, {status:200})
@@ -38,6 +38,5 @@ export async function POST(req:NextRequest, res:NextResponse) {
     mongoose.connection.close()
 }
 
-// return NextResponse.json({message:'error'},{status:400})
 
 }

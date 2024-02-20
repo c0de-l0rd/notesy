@@ -10,6 +10,8 @@ export default function PhotoModal({
   params: { id: number };
 }) {
 
+  let noteI = noteId
+
   const [text, setText] = useState<string>("")
   const [notes, setNotes] = useState<any[]>([])
 
@@ -38,6 +40,20 @@ export default function PhotoModal({
     }
   }
 
+  const saveNote = async (event: React.MouseEvent<HTMLButtonElement>) => {
+
+    const response = fetch('../../../api/updateNote', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+       docId: notes[noteId]._id,
+       title: text,
+        // other key-value pairs
+      }),
+    })
+
+  }
+
   //fetch notes when component mounts
   useEffect(()=>{
     fetchNotes()
@@ -63,5 +79,7 @@ export default function PhotoModal({
 
   return <Modal>
     <input  value={text} type="text" name="note" id="note" onChange={editText}/>
+    <button onClick={()=>saveNote}>Save</button>
+
   </Modal>;
 }
