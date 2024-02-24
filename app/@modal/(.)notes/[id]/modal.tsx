@@ -5,10 +5,17 @@ import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { MdOutlineCancel } from "react-icons/md";
 
+interface apiProps {
+  id: string,
+  bodytext: string,
+  children: React.ReactNode 
+}
 
-export function Modal({ children }: { children: React.ReactNode }) {
+export function Modal({id, bodytext,children}:apiProps) {
   const router = useRouter();
   const dialogRef = useRef(null);
+
+  console.log(id)
 
   useEffect(() => {
     // @ts-ignore
@@ -30,8 +37,25 @@ export function Modal({ children }: { children: React.ReactNode }) {
         </div>
 
         {children}
-
+        <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <button onClick={()=>{
+      console.log("going into update api")
+      fetch('/api/updateNote', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          docId:id,
+          bodyText: bodytext,
+          // other key-value pairs
+        }),
+      })
+    }}>Save</button>
       </dialog>
+      
     </div>,
     document.getElementById('modal-root')!
   );

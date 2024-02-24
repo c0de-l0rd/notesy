@@ -4,13 +4,21 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from './modal';
 
 
+
+
 export default function PhotoModal({
   params: { id: noteId },
 }: {
   params: { id: number };
 }) {
 
-  let noteI = noteId
+
+  //get the current url
+  const path = window.location.pathname;
+
+  // current url path by slashes and get the last part of the url to get doc _id
+  const parts = path.split('/')
+  const lastPart = parts[parts.length - 1]
 
   const [text, setText] = useState<string>("")
   const [notes, setNotes] = useState<any[]>([])
@@ -40,46 +48,35 @@ export default function PhotoModal({
     }
   }
 
-  const saveNote = async (event: React.MouseEvent<HTMLButtonElement>) => {
-
-    const response = fetch('../../../api/updateNote', {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-       docId: notes[noteId]._id,
-       title: text,
-        // other key-value pairs
-      }),
-    })
-
-  }
 
   //fetch notes when component mounts
   useEffect(()=>{
     fetchNotes()
     setText(notes[noteId]?.bodyText)
-   console.log('me data',notes)
-    console.log(notes.length)
+  //  console.log('me data',notes)
+  //   console.log(notes.length)
   }, [])
 
-  // useEffect(() => {
-  //   console.log(`photoId:${noteId}`)
-    
-  //   setText(notes[noteId]?.text)
-  // },[])
 
   //change edit the text in input field
-  const editText = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const editText = async (event:React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
     
-    //chec what is being typed in consol
+    //check what is being typed in consol
     console.log("value",event.target.value)
+
+    //check the note id
+    console.log("here is your id")
+    console.log(lastPart)
     notes[noteId].bodyText = event.target.value;
   }
 
-  return <Modal>
+  return <>
+  
+  <Modal id= {lastPart} bodytext= {text}>
     <input  value={text} type="text" name="note" id="note" onChange={editText}/>
-    <button onClick={()=>saveNote}>Save</button>
+  
 
-  </Modal>;
+  </Modal>
+    </>
 }

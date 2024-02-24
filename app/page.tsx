@@ -10,6 +10,7 @@ export default function Page() {
 
   const [notes, setNotes] = useState<any[]>([])
 
+
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("clicked")
 
@@ -47,7 +48,10 @@ export default function Page() {
   return (
     <section >
       {notes.map((note:any) => (
-        <Link  key={note._id} href={`/notes/${note._id}`} passHref>
+        <Link  key={note._id} href={`/notes/${note._id}`}
+        as={`/notes/${note._id}`} // Use the same URL pattern for consistency
+         passHref
+        >
           <Notes text={note.bodyText}/>
         </Link>
       ))}
