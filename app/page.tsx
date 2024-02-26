@@ -4,24 +4,29 @@ import Link from 'next/link';
 import Notes from '@/components/notes';
 import { useEffect, useState } from 'react';
 import fetchNotes from '@/utils/fetchtNotes';
+import { Input } from 'postcss';
 
 export default function Page() {
   //let photos = Array.from({ length: 6 }, (_, i) => i + 1);
 
   const [notes, setNotes] = useState<any[]>([])
+  const [modalActive, setModalActive] = useState<Boolean>(false)
+
+  const [title, setTitle] = useState<string>("")
+  const [bodyText, setBodyText] = useState<string>("")
 
 
-  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const saveNote = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("clicked")
 
     try {
       //fetch notes from mongo
-      const response = await fetch('api/test', {
+      const response = await fetch('api/createNote', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-         bodyText: 'Hi',
-         title: 'value 1',
+          title: title,
+          bodyText: bodyText,
           // other key-value pairs
         }),
       })
@@ -34,9 +39,20 @@ export default function Page() {
       // return data;
     } 
     catch (error) {
-      
+      console.log("an error has occured in fetch API", error)
     } 
   };
+
+  const editTitle = async (event:React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value)
+    
+  }
+
+  const editBodyText = async (event:React.ChangeEvent<HTMLInputElement>) => {
+    setBodyText(event.target.value)
+    
+  }
+
 
   useEffect(()=>{
    fetchNotes().then(data=>setNotes(data[0]))
@@ -46,8 +62,8 @@ export default function Page() {
 
 
   return (
-    <section >
-      {notes.map((note:any) => (
+    <section>
+      {notes?.map((note:any) => (
         <Link  key={note._id} href={`/notes/${note._id}`}
         as={`/notes/${note._id}`} // Use the same URL pattern for consistency
          passHref
@@ -55,7 +71,18 @@ export default function Page() {
           <Notes text={note.bodyText}/>
         </Link>
       ))}
-<button onClick={()=>handleClick}>Click me</button>
+
+      {modalActive &&
+         <div>
+        
+        <input  value={title} type="text" name="title" id="note" onChange={editTitle}/>
+        <input  value={bodyText} type="text" name="bodyText" id="note" onChange={editBodyText}/>
+        <button onClick={saveNote}>save</button>
+
+      </div>
+      }
+
+<button onClick={ ()=>setModalActive(true)}>New note</button>
     </section>
   );
 }
