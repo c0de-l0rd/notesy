@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import Note from "@/models/notesModel";
 
-export async function POST(req:NextRequest, res:NextResponse) {
+export async function POST() {
     
     try {
         console.log("conncting to mongo....")

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import connectMongo from '@/utils/connectMongo';
 import Note from '@/models/notesModel';
 
-export async function POST(req:NextRequest, res:NextResponse) {
+export async function POST(req:NextRequest) {
 
 
     try{

@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import Notes from '@/components/notes';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import fetchNotes from '@/utils/fetchtNotes';
-import { Input } from 'postcss';
 
 export default function Page() {
   //let photos = Array.from({ length: 6 }, (_, i) => i + 1);
@@ -15,9 +14,14 @@ export default function Page() {
   const [title, setTitle] = useState<string>("")
   const [bodyText, setBodyText] = useState<string>("")
 
+ 
+
 
   const saveNote = async (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log("clicked")
+
+    setModalActive(false)
+
 
     try {
       //fetch notes from mongo
@@ -35,12 +39,19 @@ export default function Page() {
         throw new Error(message)
       }
     
-      // const data = await response.json();
-      // return data;
+      
     } 
     catch (error) {
       console.log("an error has occured in fetch API", error)
     } 
+    
+    //fetch all notes including newly added
+   const response = await fetchNotes()
+   setNotes(response[response.length - 1])
+
+   setTitle('')
+   setBodyText('')
+
   };
 
   const editTitle = async (event:React.ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +64,33 @@ export default function Page() {
     
   }
 
+  const deleteNote = async ( event: React.MouseEvent<HTMLButtonElement>, id:string) => {
 
+   setNotes(notes.filter(note=> note._id !== id))
+
+    try{
+      const response = await fetch("api/deleteNote",{
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        id: id
+      })
+    })
+
+    if(!response.ok){
+      const message = `an error has ocurred ${response.status}`
+      throw new Error(message)
+    }
+  } catch(error){
+    console.log(error)
+  }
+
+  }
+
+
+  //fetch all notes on component mount
   useEffect(()=>{
+    console.log("not running on state change")
    fetchNotes().then(data=>setNotes(data[0]))
    console.log('me data',notes)
     console.log(notes.length)
@@ -64,12 +100,18 @@ export default function Page() {
   return (
     <section>
       {notes?.map((note:any) => (
+
+      <Suspense fallback={<div>loading...</div>}>
         <Link  key={note._id} href={`/notes/${note._id}`}
         as={`/notes/${note._id}`} // Use the same URL pattern for consistency
-         passHref
+        passHref
         >
           <Notes text={note.bodyText}/>
         </Link>
+        
+        <button onClick={(e)=>deleteNote(e, note?._id)}>delete</button>
+        </Suspense>
+        
       ))}
 
       {modalActive &&
