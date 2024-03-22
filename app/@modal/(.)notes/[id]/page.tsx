@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from './modal';
 
-
-
-
 export default function PhotoModal({
   params: { id: noteId },
 }: {
@@ -16,13 +13,23 @@ export default function PhotoModal({
   //get the current url
   const path = window.location.pathname;
 
-  // current url path by slashes and get the last part of the url to get doc _id
+  // current url (i.e url of selected note) path by slashes and get the last part of the url to get doc _id
   const parts = path.split('/')
-  const lastPart = parts[parts.length - 1]
+  const noteUrl = parts[parts.length - 1]
 
-  const [text, setText] = useState<string>("")
+  
+
   const [notes, setNotes] = useState<any[]>([])
-
+  
+  //fetch notes when component mounts
+  useEffect(()=>{
+    fetchNotes()
+    setText(notes[1]?.bodyText)
+    //  console.log('me data',notes)
+    //   console.log(notes.length)
+  }, [])
+  const [text, setText] = useState<string>(notes[1]?.bodyText)
+  
   const fetchNotes = async () => {
     try{
       const response = await fetch('../../../api/data', {
@@ -40,8 +47,6 @@ export default function PhotoModal({
       setNotes([...data.data])
       console.log("my array",notes)
 
-       
-      
     } 
     catch(error){
       console.log(`an error`,error)
@@ -49,13 +54,7 @@ export default function PhotoModal({
   }
 
 
-  //fetch notes when component mounts
-  useEffect(()=>{
-    fetchNotes()
-    setText(notes[noteId]?.bodyText)
-  //  console.log('me data',notes)
-  //   console.log(notes.length)
-  }, [])
+  
 
 
   //change edit the text in input field
@@ -67,16 +66,14 @@ export default function PhotoModal({
 
     //check the note id
     console.log("here is your id")
-    console.log(lastPart)
+    console.log(noteUrl)
     notes[noteId].bodyText = event.target.value;
   }
 
   return <>
   
-  <Modal id= {lastPart} bodytext= {text}>
+  <Modal id= {noteUrl} bodytext= {text}>
     <input  value={text} type="text" name="note" id="note" onChange={editText}/>
-  
-
   </Modal>
     </>
 }

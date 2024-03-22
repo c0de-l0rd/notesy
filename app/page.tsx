@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Notes from '@/components/notes';
 import { Suspense, useEffect, useState, useRef } from 'react';
 import fetchNotes from '@/utils/fetchtNotes';
+import { MdOutlineEdit, MdShare, MdOutlineDelete } from "react-icons/md";
+import { PiShareLight } from "react-icons/pi";
+
 
 export default function Page() {
   //let photos = Array.from({ length: 6 }, (_, i) => i + 1);
@@ -102,14 +105,26 @@ export default function Page() {
       {notes?.map((note:any) => (
 
       <Suspense fallback={<div>loading...</div>}>
+        
+
+        <div className="grid grid-cols-1 ml-8 mr-8 mt-3 rounded-[20px] bg-red-600">
+        <div className="card line-clamp-3">
+        {note.bodyText} 
+        </div>
+        <div className='px-6'>  <div className='bg-gray-500 px-[3rem] h-[0.1px] opacity-50'></div>
+            </div>
+        <div className='flex flex-row justify-around px-[3rem]'>
         <Link  key={note._id} href={`/notes/${note._id}`}
         as={`/notes/${note._id}`} // Use the same URL pattern for consistency
         passHref
         >
-          <Notes text={note.bodyText}/>
+        <MdOutlineEdit  size={24}/>
         </Link>
+        <PiShareLight size={24}/>
+        <MdOutlineDelete size={24} onClick={(e:any)=>deleteNote(e, note?._id)}/>
+        </div>
+    </div>
         
-        <button onClick={(e)=>deleteNote(e, note?._id)}>delete</button>
         </Suspense>
         
       ))}
@@ -124,7 +139,10 @@ export default function Page() {
       </div>
       }
 
-<button onClick={ ()=>setModalActive(true)}>New note</button>
+<div className='flex justify-center items-center bg-gray-400 h-[4rem] w-[4rem] rounded-3xl 
+fixed bottom-0 right-0 mb-4 mr-4 bg-opacity-60 cursor-pointer'>
+<MdOutlineEdit size={36} onClick={ ()=>setModalActive(true)}/>
+</div>
     </section>
   );
 }
